@@ -53,7 +53,7 @@ Push to `main` with Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`). `
 
 After the repo is on GitHub:
 
-1. Settings → Pages → Source: **GitHub Actions**. The workflow publishes `docs/` after the tests pass.
+1. The Pages workflow turns on GitHub Pages for the repo and publishes `docs/` after the tests pass. If that step still reports that Pages was not found, set Settings → Pages → Source to **GitHub Actions** and run the workflow again.
 2. Add a repository secret named `RENOVATE_TOKEN` (a personal access token or the Renovate GitHub App) so its pull requests can run the tests. Settings → General → Allow auto-merge.
 3. semantic-release uses the built-in `GITHUB_TOKEN` and writes `CHANGELOG.md` back to `main`.
 
