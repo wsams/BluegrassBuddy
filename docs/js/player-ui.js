@@ -1,12 +1,14 @@
 import { jam } from './audio.js';
-import { BUILTIN_SONGS, flattenSong } from './songs-data.js';
+import { BUILTIN_SONGS, flattenSong, lyricColumns } from './songs-data.js';
 import { getState, patchMixer, patchPreferences } from './storage.js';
 import { INSTRUMENTS } from './instruments-data.js';
 import { pitchClass, transposeChord } from './theory.js';
 
 export function allSongs() {
-  const custom = getState().customSongs || [];
-  return [...custom, ...BUILTIN_SONGS];
+  const byTitle = (a, b) => a.title.localeCompare(b.title);
+  const custom = [...(getState().customSongs || [])].sort(byTitle);
+  const builtin = [...BUILTIN_SONGS].sort(byTitle);
+  return [...custom, ...builtin];
 }
 
 export function getSong(id) {
@@ -70,24 +72,45 @@ export function renderMixer(el) {
   });
 }
 
+function esc(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => `&#${ch.charCodeAt(0)};`);
+}
+
+function renderLine(cols) {
+  const anyWords = cols.some((col) => col.lyric);
+  return `<div class="sheet-line">${cols.map((col) => {
+    const lyric = anyWords
+      ? `<span class="lyric">${col.lyric ? esc(col.lyric) : '&nbsp;'}</span>`
+      : '';
+    const chord = col.chord ? esc(col.chord) : '&nbsp;';
+    return `<span class="sheet-col${col.active ? ' active' : ''}" data-bar="${col.index}"><span class="chord">${chord}</span>${lyric}</span>`;
+  }).join('')}</div>`;
+}
+
 export function renderLeadSheet(el, song, activeIndex = -1) {
   const bars = flattenSong(song);
   let html = '';
   let lastSection = '';
+  let line = [];
+  const flush = () => {
+    if (!line.length) return;
+    html += renderLine(line);
+    line = [];
+  };
   bars.forEach((bar, i) => {
     if (bar.section !== lastSection) {
-      html += `<h3 class="sheet-section">${bar.section}</h3><div class="sheet-row">`;
+      flush();
+      html += `<h3 class="sheet-section">${esc(bar.section)}</h3>`;
       lastSection = bar.section;
     }
-    html += `
-      <div class="bar ${i === activeIndex ? 'active' : ''}" data-bar="${i}">
-        <div class="bar-chords">${bar.chords.map((c) => `<span class="chord">${c}</span>`).join('<span class="chord-split">/</span>')}</div>
-        <div class="bar-lyric">${bar.lyric || '&nbsp;'}</div>
-      </div>
-    `;
-    const next = bars[i + 1];
-    if (!next || next.section !== bar.section) html += '</div>';
+    if (bar.lineStart && line.length) flush();
+    else if (bar.lineStart == null && bar.sectionIndex > 0 && bar.sectionIndex % 4 === 0 && line.length) flush();
+    if (bar.pickup) line.push({ chord: '', lyric: bar.pickup, index: i, active: i === activeIndex });
+    for (const col of lyricColumns(bar.chords, bar.lyric)) {
+      line.push({ ...col, index: i, active: i === activeIndex });
+    }
   });
+  flush();
   el.innerHTML = html;
 }
 
@@ -167,9 +190,7 @@ export function bindPlayer({
   jam.onBar = (index, bar) => {
     renderLeadSheet(sheetEl, current().song, index);
     sheetEl.querySelector(`[data-bar="${index}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    if (nowEl) {
-      nowEl.innerHTML = `<span class="now-chords">${bar.chords.join('  ')}</span><span class="now-lyric">${bar.lyric || ''}</span>`;
-    }
+    if (nowEl) nowEl.innerHTML = renderLine(lyricColumns(bar.chords, bar.lyric).map((col) => ({ ...col, index: -1, active: false })));
   };
   jam.onBeat = (_i, beat) => {
     if (beatEl) beatEl.textContent = String(beat + 1);

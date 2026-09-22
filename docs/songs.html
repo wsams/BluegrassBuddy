@@ -34,7 +34,7 @@
   </header>
   <main class="wrap">
     <h1>Songs</h1>
-    <p class="lede">One bar between pipes. Chords in <code>[G]</code>. Words after the chord.</p>
+    <p class="lede">Built-in charts are traditional public-domain songs. Load a ChordPro file, or paste chords in <code>[G]</code> brackets, between <code>|</code> bars, or on the line above the words.</p>
 
     <div class="row-actions" style="margin-bottom:1.2rem">
       <button class="btn btn-primary" type="button" data-export>Export all data</button>
@@ -50,6 +50,13 @@
       </div>
       <div class="tab-panels">
         <section role="tabpanel" data-tab-panel="library">
+          <div class="az" id="az" role="group" aria-label="Browse by letter"></div>
+          <div class="controls">
+            <label class="field">Search
+              <input id="song-search" type="search" placeholder="Title, key, or tag" autocomplete="off"/>
+            </label>
+          </div>
+          <p class="hint" id="song-count"></p>
           <div id="library" class="grid grid-2"></div>
         </section>
         <section role="tabpanel" data-tab-panel="write">
@@ -81,8 +88,11 @@
             <div class="row-actions">
               <button class="btn btn-primary" id="save-song" type="button">Save to this browser</button>
               <button class="btn btn-ghost" id="jam-song" type="button">Save &amp; jam</button>
+              <label class="btn btn-ghost">Load a chart
+                <input id="load-chart" type="file" accept=".cho,.chopro,.pro,.crd,.chordpro,.txt,.onsong,text/plain" hidden/>
+              </label>
             </div>
-            <p class="hint">Headers like <code>{title: ...}</code> are optional if you fill the fields above. Bars are split on <code>|</code>.</p>
+            <p class="hint" id="load-note">ChordPro (<code>.cho</code>, <code>.chopro</code>, <code>.pro</code>) is the file to load. Headers like <code>{title: ...}</code> are optional if you fill the fields above.</p>
           </div>
         </section>
       </div>

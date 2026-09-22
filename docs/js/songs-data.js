@@ -1,211 +1,50 @@
 /**
- * Built-in public-domain / traditional songs.
- * Bars are 4/4 unless `time` says otherwise. Each bar has one or two chords
- * and the lyric sung over that bar.
+ * Public-domain catalog plus the lead-sheet parser.
+ * Built-in songs live in songs-catalog.js.
+ *
+ * A chart can be:
+ * - ChordPro (.cho, .chopro, .pro): {title: ...} and [G]words
+ * - Chords on one line, words on the next
+ * - Bars between pipes: | [G] words | [C] words |
  */
-export const BUILTIN_SONGS = [
-  {
-    id: 'circle-be-unbroken',
-    title: 'Will the Circle Be Unbroken',
-    source: 'Traditional / Ada R. Habershon & Charles H. Gabriel (public domain)',
-    key: 'G',
-    time: '4/4',
-    tempo: 108,
-    feel: 'boom-chuck',
-    tags: ['gospel', 'standard'],
-    sections: [
-      {
-        name: 'Verse',
-        bars: [
-          { chords: ['G'], lyric: 'Will the circle' },
-          { chords: ['G'], lyric: 'be unbroken' },
-          { chords: ['C'], lyric: 'by and by, Lord,' },
-          { chords: ['G'], lyric: 'by and by' },
-          { chords: ['G'], lyric: "There's a better" },
-          { chords: ['G'], lyric: 'home a-waiting' },
-          { chords: ['D7'], lyric: 'in the sky, Lord,' },
-          { chords: ['G'], lyric: 'in the sky' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'willow',
-    title: 'Bury Me Beneath the Willow',
-    source: 'Traditional (public domain)',
-    key: 'G',
-    time: '4/4',
-    tempo: 100,
-    feel: 'boom-chuck',
-    tags: ['gospel', 'standard'],
-    sections: [
-      {
-        name: 'Verse',
-        bars: [
-          { chords: ['G'], lyric: 'My heart is sad and' },
-          { chords: ['G'], lyric: 'I am lonely' },
-          { chords: ['C'], lyric: 'For the one I' },
-          { chords: ['G'], lyric: 'love so true' },
-          { chords: ['G'], lyric: 'We never more shall' },
-          { chords: ['G'], lyric: 'weep together' },
-          { chords: ['D7'], lyric: 'For we know not' },
-          { chords: ['G'], lyric: 'what we do' },
-        ],
-      },
-      {
-        name: 'Chorus',
-        bars: [
-          { chords: ['G'], lyric: 'Oh, bury me beneath the willow' },
-          { chords: ['G'], lyric: 'Under the weeping willow tree' },
-          { chords: ['C'], lyric: 'So she will know where' },
-          { chords: ['G'], lyric: 'I am sleeping' },
-          { chords: ['G'], lyric: 'And perhaps she\'ll' },
-          { chords: ['G'], lyric: 'weep for me' },
-          { chords: ['D7'], lyric: '' },
-          { chords: ['G'], lyric: '' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'amazing-grace',
-    title: 'Amazing Grace',
-    source: 'John Newton / traditional (public domain)',
-    key: 'G',
-    time: '3/4',
-    tempo: 86,
-    feel: 'waltz',
-    tags: ['gospel', 'waltz'],
-    sections: [
-      {
-        name: 'Verse',
-        bars: [
-          { chords: ['G'], lyric: 'Amazing grace,' },
-          { chords: ['G'], lyric: 'how sweet the sound' },
-          { chords: ['C'], lyric: 'That saved a' },
-          { chords: ['G'], lyric: 'wretch like me' },
-          { chords: ['G'], lyric: 'I once was lost,' },
-          { chords: ['G'], lyric: 'but now am found' },
-          { chords: ['D7'], lyric: 'Was blind, but' },
-          { chords: ['G'], lyric: 'now I see' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'cripple-creek',
-    title: 'Cripple Creek',
-    source: 'Traditional fiddle tune (public domain)',
-    key: 'A',
-    time: '4/4',
-    tempo: 126,
-    feel: 'boom-chuck',
-    tags: ['fiddle-tune', 'instrumental'],
-    sections: [
-      {
-        name: 'A',
-        bars: [
-          { chords: ['A'], lyric: 'Goin\' up Cripple Creek' },
-          { chords: ['A'], lyric: 'goin\' in a run' },
-          { chords: ['A'], lyric: 'Goin\' up Cripple Creek' },
-          { chords: ['E'], lyric: 'to have a little fun' },
-          { chords: ['A'], lyric: 'Goin\' up Cripple Creek' },
-          { chords: ['A'], lyric: 'goin\' in a whirl' },
-          { chords: ['A'], lyric: 'Goin\' up Cripple Creek' },
-          { chords: ['E', 'A'], lyric: 'to see my girl' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'old-joe-clark',
-    title: 'Old Joe Clark',
-    source: 'Traditional (public domain) — Mixolydian jam',
-    key: 'A',
-    time: '4/4',
-    tempo: 120,
-    feel: 'boom-chuck',
-    tags: ['fiddle-tune', 'mixolydian'],
-    sections: [
-      {
-        name: 'A',
-        bars: [
-          { chords: ['A'], lyric: 'Old Joe Clark, the' },
-          { chords: ['A'], lyric: 'preacher\'s son' },
-          { chords: ['A'], lyric: 'Preached all over the' },
-          { chords: ['G'], lyric: 'kingdom come' },
-          { chords: ['A'], lyric: 'Old Joe Clark he' },
-          { chords: ['A'], lyric: 'had a house' },
-          { chords: ['G'], lyric: 'Fifteen stories' },
-          { chords: ['A'], lyric: 'high' },
-        ],
-      },
-      {
-        name: 'Chorus',
-        bars: [
-          { chords: ['A'], lyric: 'Fare thee well,' },
-          { chords: ['A'], lyric: 'Old Joe Clark' },
-          { chords: ['A'], lyric: 'Fare thee well,' },
-          { chords: ['G'], lyric: "I say" },
-          { chords: ['A'], lyric: 'Fare thee well,' },
-          { chords: ['A'], lyric: 'Old Joe Clark' },
-          { chords: ['G'], lyric: 'I\'m a-goin\' away' },
-          { chords: ['A'], lyric: '' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'wabash-cannonball',
-    title: 'The Wabash Cannonball',
-    source: 'Traditional / Carter Family-era standard (public domain melody)',
-    key: 'G',
-    time: '4/4',
-    tempo: 118,
-    feel: 'boom-chuck',
-    tags: ['standard'],
-    sections: [
-      {
-        name: 'Verse',
-        bars: [
-          { chords: ['G'], lyric: 'From the great Atlantic ocean' },
-          { chords: ['G'], lyric: 'to the wide Pacific shore' },
-          { chords: ['C'], lyric: 'From the green old flowing mountains' },
-          { chords: ['G'], lyric: 'to the south down by the shore' },
-          { chords: ['G'], lyric: 'She\'s mighty tall and handsome' },
-          { chords: ['G'], lyric: 'and she\'s known quite well by all' },
-          { chords: ['D7'], lyric: 'She\'s the regular combination' },
-          { chords: ['G'], lyric: 'on the Wabash Cannonball' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'angel-band',
-    title: 'Angel Band',
-    source: 'Traditional gospel (public domain)',
-    key: 'G',
-    time: '3/4',
-    tempo: 80,
-    feel: 'waltz',
-    tags: ['gospel', 'waltz'],
-    sections: [
-      {
-        name: 'Chorus',
-        bars: [
-          { chords: ['G'], lyric: 'Oh come,' },
-          { chords: ['G'], lyric: 'angel band' },
-          { chords: ['C'], lyric: 'Come and' },
-          { chords: ['G'], lyric: 'around me stand' },
-          { chords: ['G'], lyric: 'Oh bear me away' },
-          { chords: ['G'], lyric: 'on your snowy wings' },
-          { chords: ['D7'], lyric: 'To my immortal' },
-          { chords: ['G'], lyric: 'home' },
-        ],
-      },
-    ],
-  },
-];
+import { normalizeNote } from './theory.js';
+import { SONG_CHARTS } from './songs-catalog.js';
+
+const CHORD_TOKEN = /^(?:N\.?C\.?|[A-G](?:#|b)?(?:maj7|maj9|maj|min|dim7|dim|aug|add9|add|sus2|sus4|sus|m)?\d{0,2}(?:sus2|sus4)?(?:\/[A-G](?:#|b)?)?)$/;
+
+const SECTION_COMMENT = /^(verse|chorus|bridge|intro|outro|tag|break|instrumental|a|b)(?:\s+\d+)?$/i;
+
+export function isChordToken(symbol) {
+  return CHORD_TOKEN.test(String(symbol).trim());
+}
+
+export function toAppKey(value) {
+  const cleaned = String(value ?? '').trim().replace(/\s*(minor|major|min|maj)$/i, '');
+  return normalizeNote(cleaned) || 'G';
+}
+
+/** Index letter for the song library. A leading "The", "A", or "An" is skipped. */
+export function songIndexLetter(title) {
+  const name = String(title ?? '').replace(/^(the|a|an)\s+/i, '').trim();
+  const ch = name.charAt(0).toUpperCase();
+  return /[A-Z]/.test(ch) ? ch : '#';
+}
+
+/** Chord symbol above the words it covers. Two chords in one bar split the words. */
+export function lyricColumns(chords, lyric) {
+  const list = chords?.length ? chords : ['G'];
+  const words = String(lyric ?? '').trim().split(/\s+/).filter(Boolean);
+  if (list.length === 1) return [{ chord: list[0], lyric: words.join(' ') }];
+  if (!words.length) return list.map((chord) => ({ chord, lyric: '' }));
+  if (words.length < list.length) {
+    return list.map((chord, i) => ({ chord, lyric: words[i] || '' }));
+  }
+  const size = Math.ceil(words.length / list.length);
+  return list.map((chord, i) => ({
+    chord,
+    lyric: words.slice(i * size, (i + 1) * size).join(' '),
+  }));
+}
 
 export function flattenSong(song) {
   const bars = [];
@@ -214,9 +53,7 @@ export function flattenSong(song) {
       bars.push({
         ...bar,
         section: section.name,
-        sectionIndex: bars.length === 0 || bars[bars.length - 1]?.section !== section.name
-          ? i
-          : i,
+        sectionIndex: i,
         index: bars.length,
       });
     });
@@ -224,8 +61,124 @@ export function flattenSong(song) {
   return bars;
 }
 
+function titleCase(value) {
+  return String(value)
+    .trim()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function sectionName(token, label) {
+  if (label?.trim()) return label.trim();
+  const short = { sov: 'Verse', soc: 'Chorus', sob: 'Bridge' };
+  if (short[token.toLowerCase()]) return short[token.toLowerCase()];
+  return titleCase(token.replace(/^start_of_/i, ''));
+}
+
+function withLine(bars) {
+  return bars.map((bar, i) => ({ ...bar, lineStart: i === 0 }));
+}
+
+function barsFromBrackets(line) {
+  const re = /\[([^\]]+)\]/g;
+  const parts = [];
+  let match;
+  while ((match = re.exec(line))) {
+    const token = match[1].trim();
+    if (!isChordToken(token)) continue;
+    parts.push({ chord: token, index: match.index, end: re.lastIndex });
+  }
+  return parts.map((part, i) => {
+    const textEnd = i + 1 < parts.length ? parts[i + 1].index : line.length;
+    const lyric = line.slice(part.end, textEnd).replace(/\[[^\]]+\]/g, '').trim();
+    const bar = { chords: [part.chord], lyric };
+    if (i === 0 && part.index > 0) {
+      const pickup = line.slice(0, part.index).trim();
+      if (pickup) bar.pickup = pickup;
+    }
+    return bar;
+  });
+}
+
+function barFromCell(cell) {
+  if (/\[[^\]]+\]/.test(cell)) return barsFromBrackets(cell);
+  const tokens = cell.split(/\s+/).filter(Boolean);
+  const chords = [];
+  const words = [];
+  for (const token of tokens) {
+    if (!words.length && isChordToken(token)) chords.push(token);
+    else words.push(token);
+  }
+  if (!chords.length) return [{ chords: ['G'], lyric: cell.trim() }];
+  const lyric = words.join(' ');
+  return chords.map((chord, i) => ({
+    chords: [chord],
+    lyric: i === chords.length - 1 ? lyric : '',
+  }));
+}
+
+function chordSpans(line) {
+  const spans = [];
+  const re = /\S+/g;
+  let match;
+  while ((match = re.exec(line))) {
+    if (isChordToken(match[0])) spans.push({ chord: match[0], index: match.index });
+  }
+  return spans;
+}
+
+function isChordLine(line) {
+  const tokens = line.trim().split(/\s+/).filter(Boolean);
+  return tokens.length > 0 && tokens.every(isChordToken);
+}
+
+function alignChords(chordLine, lyricLine) {
+  const spans = chordSpans(chordLine);
+  return spans.map((span, i) => {
+    const end = i + 1 < spans.length ? spans[i + 1].index : lyricLine.length;
+    const bar = { chords: [span.chord], lyric: lyricLine.slice(span.index, end).trim() };
+    if (i === 0 && span.index > 0) {
+      const pickup = lyricLine.slice(0, span.index).trim();
+      if (pickup) bar.pickup = pickup;
+    }
+    return bar;
+  });
+}
+
+function isStructural(line) {
+  return !line
+    || line.startsWith('{')
+    || line.startsWith('|')
+    || line.startsWith('#')
+    || isChordLine(line)
+    || /\[[^\]]+\]/.test(line);
+}
+
+function applyDirective(song, key, value, state) {
+  const k = key.trim().toLowerCase();
+  const v = value.trim();
+  if (k === 'meta') {
+    const meta = v.match(/^(\S+)\s+(.+)$/);
+    if (meta) applyDirective(song, meta[1], meta[2], state);
+    return null;
+  }
+  if (k === 'title' || k === 't') song.title = v;
+  else if (k === 'key' || k === 'k') song.key = toAppKey(v);
+  else if (k === 'tempo') song.tempo = Number(v) || song.tempo;
+  else if (k === 'time') {
+    song.time = v;
+    if (!state.feelSet && /^3\//.test(v)) song.feel = 'waltz';
+  } else if (k === 'feel') {
+    song.feel = v;
+    state.feelSet = true;
+  } else if (k === 'artist') song.source = v;
+  else if ((k === 'subtitle' || k === 'st') && song.source === 'Custom') song.source = v;
+  else if ((k === 'comment' || k === 'c') && SECTION_COMMENT.test(v)) return titleCase(v);
+  return null;
+}
+
 export function parseLeadSheet(text) {
-  const lines = text.split(/\r?\n/);
+  const lines = String(text ?? '').split(/\r?\n/);
   const song = {
     id: crypto.randomUUID(),
     title: 'Untitled',
@@ -238,63 +191,116 @@ export function parseLeadSheet(text) {
     sections: [],
     custom: true,
   };
+  const state = { feelSet: false };
   let current = { name: 'Verse', bars: [] };
+  let skipping = false;
 
   const flush = () => {
-    if (current.bars.length) {
-      song.sections.push(current);
-      current = { name: `Section ${song.sections.length + 1}`, bars: [] };
-    }
+    if (!current.bars.length) return;
+    song.sections.push(current);
+    current = { name: `Section ${song.sections.length + 1}`, bars: [] };
   };
 
-  for (const raw of lines) {
+  for (let i = 0; i < lines.length; i += 1) {
+    const raw = lines[i];
     const line = raw.trim();
     if (!line) continue;
-    const dir = line.match(/^\{(\w+):\s*(.+)\}$/i);
-    if (dir) {
-      const k = dir[1].toLowerCase();
-      const v = dir[2].trim();
-      if (k === 'title') song.title = v;
-      if (k === 'key') song.key = v;
-      if (k === 'tempo') song.tempo = Number(v) || song.tempo;
-      if (k === 'time') song.time = v;
-      if (k === 'feel') song.feel = v;
+
+    if (skipping) {
+      if (/^\{(?:end_of_tab|eot)\}$/i.test(line)) skipping = false;
       continue;
     }
-    if (/^\{start_of_(\w+)\}/i.test(line) || /^##\s+/.test(line)) {
+    if (/^\{(?:start_of_tab|sot)\}$/i.test(line)) {
+      skipping = true;
+      continue;
+    }
+    if (/^\{chorus\}$/i.test(line)) {
       flush();
-      current = {
-        name: (line.match(/^\{start_of_(\w+)\}/i)?.[1] || line.replace(/^##\s+/, '')).replace(/^\w/, (c) => c.toUpperCase()),
-        bars: [],
-      };
-      continue;
-    }
-    if (/^\{end_of_/i.test(line)) {
-      flush();
-      continue;
-    }
-    if (line.startsWith('|')) {
-      const cells = line.split('|').map((c) => c.trim()).filter(Boolean);
-      for (const cell of cells) {
-        const chords = [...cell.matchAll(/\[([^\]]+)\]/g)].map((m) => m[1]);
-        const lyric = cell.replace(/\[[^\]]+\]/g, '').trim();
-        current.bars.push({ chords: chords.length ? chords : ['G'], lyric });
+      const prev = [...song.sections].reverse().find((section) => section.name.toLowerCase() === 'chorus');
+      if (prev) {
+        song.sections.push({
+          name: 'Chorus',
+          bars: prev.bars.map((bar) => {
+            const copy = {
+              chords: [...bar.chords],
+              lyric: bar.lyric,
+              lineStart: bar.lineStart,
+            };
+            if (bar.pickup) copy.pickup = bar.pickup;
+            return copy;
+          }),
+        });
       }
       continue;
     }
-    const chords = [...line.matchAll(/\[([^\]]+)\]/g)].map((m) => m[1]);
-    const lyric = line.replace(/\[[^\]]+\]/g, '').trim();
-    if (chords.length) current.bars.push({ chords, lyric });
+
+    const marker = line.match(/^\{(start_of_\w+|sov|soc|sob|end_of_\w+|eov|eoc|eob)(?::\s*([^}]*))?\}$/i);
+    if (marker) {
+      const token = marker[1].toLowerCase();
+      if (token.startsWith('end_of_') || token === 'eov' || token === 'eoc' || token === 'eob') {
+        flush();
+      } else {
+        flush();
+        current = { name: sectionName(token, marker[2]), bars: [] };
+      }
+      continue;
+    }
+    if (/^##\s+/.test(line)) {
+      flush();
+      current = { name: line.replace(/^##\s+/, '').trim(), bars: [] };
+      continue;
+    }
+    const heading = line.match(/^\[((?:verse|chorus|bridge|intro|outro|tag|break|instrumental|part)\b[^\]]*)\]$/i);
+    if (heading) {
+      flush();
+      current = { name: titleCase(heading[1]), bars: [] };
+      continue;
+    }
+
+    const directive = line.match(/^\{([^:}]+):\s*([^}]*)\}$/);
+    if (directive) {
+      const section = applyDirective(song, directive[1], directive[2], state);
+      if (section) {
+        flush();
+        current = { name: section, bars: [] };
+      }
+      continue;
+    }
+
+    if (line.startsWith('|')) {
+      const bars = [];
+      for (const cell of line.split('|').map((part) => part.trim()).filter(Boolean)) {
+        bars.push(...barFromCell(cell));
+      }
+      current.bars.push(...withLine(bars));
+      continue;
+    }
+
+    if (isChordLine(line)) {
+      const nextRaw = lines[i + 1] ?? '';
+      const next = nextRaw.trim();
+      if (next && !isStructural(next)) {
+        i += 1;
+        current.bars.push(...withLine(alignChords(raw, nextRaw)));
+      } else {
+        current.bars.push(...withLine(line.split(/\s+/).map((token) => ({ chords: [token], lyric: '' }))));
+      }
+      continue;
+    }
+
+    const bracketBars = barsFromBrackets(line);
+    if (bracketBars.length) current.bars.push(...withLine(bracketBars));
   }
+
   flush();
   if (!song.sections.length) {
     song.sections.push({
       name: 'Verse',
       bars: [
-        { chords: ['G'], lyric: '' },
-        { chords: ['C'], lyric: '' },
-        { chords: ['G'], lyric: '' },
-        { chords: ['D7'], lyric: '' },
+        { chords: ['G'], lyric: '', lineStart: true },
+        { chords: ['C'], lyric: '', lineStart: false },
+        { chords: ['G'], lyric: '', lineStart: false },
+        { chords: ['D7'], lyric: '', lineStart: false },
       ],
     });
   }
@@ -311,18 +317,37 @@ export function songToLeadSheet(song) {
     '',
   ];
   for (const section of song.sections) {
-    lines.push(`{start_of_${section.name.toLowerCase().replace(/\s+/g, '_')}}`);
-    let row = '|';
-    section.bars.forEach((bar, i) => {
-      const chordBits = bar.chords.map((c) => `[${c}]`).join(' ');
-      row += ` ${chordBits} ${bar.lyric || ''} |`;
-      if ((i + 1) % 4 === 0) {
-        lines.push(row);
-        row = '|';
-      }
-    });
-    if (row !== '|') lines.push(row);
-    lines.push(`{end_of_${section.name.toLowerCase().replace(/\s+/g, '_')}}`, '');
+    lines.push(`{start_of_section: ${section.name}}`);
+    let group = [];
+    const flushGroup = () => {
+      if (!group.length) return;
+      lines.push(group.map((bar) => `${bar.pickup ? `${bar.pickup} ` : ''}[${bar.chords[0] || 'G'}]${bar.lyric || ''}`).join(' '));
+      group = [];
+    };
+    for (const bar of section.bars) {
+      if (bar.lineStart && group.length) flushGroup();
+      group.push(bar);
+    }
+    flushGroup();
+    lines.push('{end_of_section}', '');
   }
   return lines.join('\n');
 }
+
+export function compileChart(entry) {
+  const parsed = parseLeadSheet(entry.chart);
+  return {
+    ...parsed,
+    id: entry.id,
+    title: entry.title || parsed.title,
+    source: entry.source || parsed.source,
+    key: entry.key || parsed.key,
+    time: entry.time || parsed.time,
+    tempo: entry.tempo || parsed.tempo,
+    feel: entry.feel || parsed.feel,
+    tags: entry.tags || [],
+    custom: false,
+  };
+}
+
+export const BUILTIN_SONGS = SONG_CHARTS.map(compileChart);

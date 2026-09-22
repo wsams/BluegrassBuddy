@@ -6,7 +6,7 @@
   "description": "Practice tools for bluegrass players — capo, pentatonics, jam tracks, and chord charts.",
   "scripts": {
     "start": "python3 -m http.server 18421 --directory docs",
-    "test": "node --test docs/js/theory.test.js docs/js/chords.test.js docs/js/jam-patterns.test.js"
+    "test": "node --test docs/js/theory.test.js docs/js/chords.test.js docs/js/jam-patterns.test.js docs/js/songs-data.test.js"
   },
   "repository": {
     "type": "git",
