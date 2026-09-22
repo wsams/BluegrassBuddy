@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Live sheet — BluegrassBuddy</title>
+  <script src="js/theme-boot.js"></script>
+  <link rel="icon" href="assets/favicon.svg"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">𝄞</span>
+      <span class="brand-text">Bluegrass<span>Buddy</span></span>
+    </a>
+    <div class="header-end">
+      <div class="theme-toggle" role="group" aria-label="Theme">
+        <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-choice="dark" aria-pressed="true">Dark</button>
+      </div>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">☰</button>
+      <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="capo.html">Capo</a>
+      <a href="charts.html">Charts</a>
+      <a href="scales.html">Scales</a>
+      <a href="jam.html">Jam</a>
+      <a href="songs.html">Songs</a>
+      <a href="sheet.html">Sheet</a>
+      <a href="instruments.html">Instruments</a>
+    </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <h1>Lead sheet</h1>
+
+    <div class="panel">
+      <div class="controls">
+        <label class="field">Song
+          <select id="song"></select>
+        </label>
+        <label class="field">Key
+          <select id="key"></select>
+        </label>
+        <label class="field">Tempo
+          <input id="tempo" type="number" min="60" max="200"/>
+        </label>
+      </div>
+      <div class="row-actions">
+        <button class="btn btn-primary btn-lg" id="play" type="button">Play</button>
+        <button class="btn btn-ghost" id="stop" type="button">Stop</button>
+        <span class="beat-pip">Beat <span id="beat">1</span></span>
+        <a class="btn btn-ghost" href="jam.html">Open mixer</a>
+      </div>
+      <div class="now-playing" id="now">
+        <span class="now-chords">Ready</span>
+        <span class="now-lyric muted">Click Play.</span>
+      </div>
+    </div>
+
+    <div id="sheet" style="margin-top:1.2rem"></div>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© <span data-year></span> BluegrassBuddy</span>
+      <span>Click Play to start.</span>
+    </div>
+  </footer>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/page-sheet.js"></script>
+</body>
+</html>

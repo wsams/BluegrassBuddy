@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Chord, scale &amp; capo charts — BluegrassBuddy</title>
+  <script src="js/theme-boot.js"></script>
+  <link rel="icon" href="assets/favicon.svg"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">𝄞</span>
+      <span class="brand-text">Bluegrass<span>Buddy</span></span>
+    </a>
+    <div class="header-end">
+      <div class="theme-toggle" role="group" aria-label="Theme">
+        <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-choice="dark" aria-pressed="true">Dark</button>
+      </div>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">☰</button>
+      <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="capo.html">Capo</a>
+      <a href="charts.html">Charts</a>
+      <a href="scales.html">Scales</a>
+      <a href="jam.html">Jam</a>
+      <a href="songs.html">Songs</a>
+      <a href="sheet.html">Sheet</a>
+      <a href="instruments.html">Instruments</a>
+    </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <h1>Charts</h1>
+
+    <div class="panel controls">
+      <label class="field">Song key
+        <select id="chord-key"></select>
+      </label>
+    </div>
+
+    <div class="tabs" data-tabs data-tabs-param="tab">
+      <div class="tab-list" role="tablist" aria-label="Chart collections">
+        <button type="button" role="tab" data-tab="chords">Chords</button>
+        <button type="button" role="tab" data-tab="ten-dollar">Ten-dollar</button>
+        <button type="button" role="tab" data-tab="chromatics">Chromatics</button>
+        <button type="button" role="tab" data-tab="scales">Scales</button>
+        <button type="button" role="tab" data-tab="capo">Capo</button>
+      </div>
+      <div class="tab-panels">
+        <section role="tabpanel" data-tab-panel="chords">
+          <div class="tabs nested" data-tabs>
+            <div class="tab-list" role="tablist" aria-label="Chord views">
+              <button type="button" role="tab" data-tab="in-key">This key</button>
+              <button type="button" role="tab" data-tab="diatonic">All keys</button>
+              <button type="button" role="tab" data-tab="cowboy">Cowboy library</button>
+            </div>
+            <div class="tab-panels">
+              <div role="tabpanel" data-tab-panel="in-key">
+                <h2>Chords in this key</h2>
+                <p class="muted">I, IV, V, V7, vi, bVII.</p>
+                <div id="key-chords" class="chord-grid"></div>
+              </div>
+              <div role="tabpanel" data-tab-panel="diatonic">
+                <h2>Diatonic chords for every jam key</h2>
+                <div class="card table-wrap">
+                  <table id="chart-diatonic"></table>
+                </div>
+              </div>
+              <div role="tabpanel" data-tab-panel="cowboy">
+                <h2>Open grips</h2>
+                <p class="muted">First position. Other keys use an E-form or A-form barre.</p>
+                <div id="cowboy-chords" class="chord-grid"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section role="tabpanel" data-tab-panel="ten-dollar">
+          <h2>Ten-dollar chords</h2>
+          <p class="muted">6ths, maj7s, 9ths, m7s, a dim7, and the V of V.</p>
+          <div id="ten-dollar-chords"></div>
+        </section>
+
+        <section role="tabpanel" data-tab-panel="chromatics">
+          <div class="tabs nested" data-tabs>
+            <div class="tab-list" role="tablist" aria-label="Chromatic views">
+              <button type="button" role="tab" data-tab="ideas">Ideas</button>
+              <button type="button" role="tab" data-tab="slide">Half-step slide</button>
+              <button type="button" role="tab" data-tab="walk">Walk</button>
+              <button type="button" role="tab" data-tab="neck">Neck</button>
+            </div>
+            <div class="tab-panels">
+              <div role="tabpanel" data-tab-panel="ideas">
+                <h2>Chromatics</h2>
+                <p class="muted">Land on a chord tone, usually the root, when the chord hits.</p>
+                <div class="grid grid-3" id="chromatic-lessons">
+                  <article class="card">
+                    <h3>Land on the root</h3>
+                    <p>Four chromatic notes. The last one is the root, on the downbeat.</p>
+                  </article>
+                  <article class="card">
+                    <h3>From a fret below</h3>
+                    <p>Same closed shape, one fret lower, then slide up. F# into G, C# into D, G# into A.</p>
+                  </article>
+                  <article class="card">
+                    <h3>From a fret above</h3>
+                    <p>Start a half step sharp and come down. Don’t sit on the upper fret.</p>
+                  </article>
+                </div>
+              </div>
+              <div role="tabpanel" data-tab-panel="slide">
+                <div class="panel controls">
+                  <label class="field">Target chord
+                    <select id="chromatic-target"></select>
+                  </label>
+                </div>
+                <h2>Half-step slide</h2>
+                <p class="muted">Closed E-form so the whole grip moves. Play the left diagram, slide to the middle. The right-hand grip is the fall-in from above.</p>
+                <div id="slide-trio" class="slide-row"></div>
+              </div>
+              <div role="tabpanel" data-tab-panel="walk">
+                <h2>Chromatic walk into the root</h2>
+                <p class="muted">Four notes, last one is the chord root. Repeat it on any string that has that root.</p>
+                <div id="chromatic-walk" class="walk-strip"></div>
+              </div>
+              <div role="tabpanel" data-tab-panel="neck">
+                <h2>Chord tones vs. approach notes</h2>
+                <p class="muted">Teal is the target chord. Amber is a half step below each of those tones — slide or walk into the teal.</p>
+                <div class="card" id="chromatic-neck"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section role="tabpanel" data-tab-panel="scales">
+          <h2>Scale charts</h2>
+          <p class="muted">
+            Minor pentatonic, natural minor, and blues are spelled from the relative minor.
+            Necks are on the <a href="scales.html">scales</a> page.
+          </p>
+          <div class="panel controls">
+            <label class="field">Scale
+              <select id="chart-scale-type"></select>
+            </label>
+          </div>
+          <div class="card table-wrap">
+            <table id="chart-scales"></table>
+          </div>
+        </section>
+
+        <section role="tabpanel" data-tab-panel="capo">
+          <div class="tabs nested" data-tabs>
+            <div class="tab-list" role="tablist" aria-label="Capo tables">
+              <button type="button" role="tab" data-tab="by-key">By song key</button>
+              <button type="button" role="tab" data-tab="by-capo">By capo fret</button>
+              <button type="button" role="tab" data-tab="g-shapes">G shapes</button>
+            </div>
+            <div class="tab-panels">
+              <div role="tabpanel" data-tab-panel="by-key">
+                <h2>Capo fret by song key</h2>
+                <p class="muted">Rows are sounding keys. Columns are which pentatonic box sits at the capo. Zero means play open.</p>
+                <div class="card table-wrap">
+                  <table id="chart-forward"></table>
+                </div>
+              </div>
+              <div role="tabpanel" data-tab-panel="by-capo">
+                <h2>Key at this capo</h2>
+                <p class="muted">Each column is a box at the nut, against that capo.</p>
+                <div class="card table-wrap">
+                  <table id="chart-reverse"></table>
+                </div>
+              </div>
+              <div role="tabpanel" data-tab-panel="g-shapes">
+                <h2>G shapes</h2>
+                <p class="muted">1st box at the capo. G and Em grips.</p>
+                <div class="card table-wrap">
+                  <table id="chart-cowboy"></table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© <span data-year></span> BluegrassBuddy</span>
+      <span>G shapes in A = capo 2. G shapes in C = capo 5. A shapes in C = capo 3.</span>
+    </div>
+  </footer>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/page-charts.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Songs — BluegrassBuddy</title>
+  <script src="js/theme-boot.js"></script>
+  <link rel="icon" href="assets/favicon.svg"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">𝄞</span>
+      <span class="brand-text">Bluegrass<span>Buddy</span></span>
+    </a>
+    <div class="header-end">
+      <div class="theme-toggle" role="group" aria-label="Theme">
+        <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-choice="dark" aria-pressed="true">Dark</button>
+      </div>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">☰</button>
+      <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="capo.html">Capo</a>
+      <a href="charts.html">Charts</a>
+      <a href="scales.html">Scales</a>
+      <a href="jam.html">Jam</a>
+      <a href="songs.html">Songs</a>
+      <a href="sheet.html">Sheet</a>
+      <a href="instruments.html">Instruments</a>
+    </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <h1>Songs</h1>
+    <p class="lede">One bar between pipes. Chords in <code>[G]</code>. Words after the chord.</p>
+
+    <div class="row-actions" style="margin-bottom:1.2rem">
+      <button class="btn btn-primary" type="button" data-export>Export all data</button>
+      <label class="btn btn-ghost">Import
+        <input data-import type="file" accept="application/json" hidden/>
+      </label>
+    </div>
+
+    <div class="tabs" data-tabs data-tabs-param="tab">
+      <div class="tab-list" role="tablist" aria-label="Song bag">
+        <button type="button" role="tab" data-tab="library">Library</button>
+        <button type="button" role="tab" data-tab="write">Write a chart</button>
+      </div>
+      <div class="tab-panels">
+        <section role="tabpanel" data-tab-panel="library">
+          <div id="library" class="grid grid-2"></div>
+        </section>
+        <section role="tabpanel" data-tab-panel="write">
+          <h2>Add or edit a custom song</h2>
+          <div class="panel">
+            <input type="hidden" id="edit-id"/>
+            <div class="controls">
+              <label class="field">Title
+                <input id="title" type="text" placeholder="Bury Me Beneath the Willow"/>
+              </label>
+              <label class="field">Key
+                <select id="key"></select>
+              </label>
+              <label class="field">Tempo
+                <input id="tempo" type="number" value="110" min="60" max="200"/>
+              </label>
+            </div>
+            <label class="field">Lead sheet
+              <textarea id="chart" spellcheck="false">{title: My Tune}
+{key: G}
+{tempo: 110}
+{time: 4/4}
+
+{start_of_verse}
+| [G] First phrase | [G] second phrase | [C] third | [G] fourth |
+| [G] fifth | [G] sixth | [D7] seventh | [G] eighth |
+{end_of_verse}</textarea>
+            </label>
+            <div class="row-actions">
+              <button class="btn btn-primary" id="save-song" type="button">Save to this browser</button>
+              <button class="btn btn-ghost" id="jam-song" type="button">Save &amp; jam</button>
+            </div>
+            <p class="hint">Headers like <code>{title: ...}</code> are optional if you fill the fields above. Bars are split on <code>|</code>.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© <span data-year></span> BluegrassBuddy</span>
+      <span>Custom songs stay in this browser only. They are not saved on a server.</span>
+    </div>
+  </footer>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/page-songs.js"></script>
+</body>
+</html>

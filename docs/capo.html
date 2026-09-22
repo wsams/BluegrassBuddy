@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Capo calculator — BluegrassBuddy</title>
+  <script src="js/theme-boot.js"></script>
+  <link rel="icon" href="assets/favicon.svg"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="capo">
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">𝄞</span>
+      <span class="brand-text">Bluegrass<span>Buddy</span></span>
+    </a>
+    <div class="header-end">
+      <div class="theme-toggle" role="group" aria-label="Theme">
+        <button type="button" data-theme-choice="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-choice="dark" aria-pressed="true">Dark</button>
+      </div>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">☰</button>
+      <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="capo.html">Capo</a>
+      <a href="charts.html">Charts</a>
+      <a href="scales.html">Scales</a>
+      <a href="jam.html">Jam</a>
+      <a href="songs.html">Songs</a>
+      <a href="sheet.html">Sheet</a>
+      <a href="instruments.html">Instruments</a>
+    </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Capo</h1>
+    <p class="lede">
+      Position 1 is the open Em box, G major. In C that is capo 5. The 5th box in A is open.
+    </p>
+
+    <section class="panel capo-panel">
+      <div class="controls">
+        <label class="field">Song key
+          <select id="song-key"></select>
+        </label>
+        <label class="field">Box at the open position
+          <select id="position"></select>
+        </label>
+      </div>
+      <p class="result-capo" id="capo-label"></p>
+      <p id="capo-summary"></p>
+      <p class="callout" id="capo-note"></p>
+      <p class="muted" id="capo-meta"></p>
+      <div class="row-actions">
+        <button class="btn btn-primary" type="button" id="save-preset">Save this setup</button>
+        <a class="btn btn-ghost" href="charts.html?tab=capo">Capo charts</a>
+      </div>
+    </section>
+
+    <div class="card guitar-neck" id="guitar-neck"></div>
+
+    <div class="tabs" data-tabs data-tabs-param="tab">
+      <div class="tab-list" role="tablist" aria-label="Capo views">
+        <button type="button" role="tab" data-tab="necks">Necks</button>
+        <button type="button" role="tab" data-tab="tuner">Tuner</button>
+        <button type="button" role="tab" data-tab="saved">Saved setups</button>
+      </div>
+      <div class="tab-panels">
+        <section role="tabpanel" data-tab-panel="necks">
+          <div id="scale-strip"></div>
+          <div class="card" style="margin-top:1rem" id="box-neck"></div>
+          <div class="card" style="margin-top:1rem" id="full-neck"></div>
+        </section>
+        <section role="tabpanel" data-tab-panel="tuner">
+          <div class="panel">
+            <p class="tuner-note" id="tuner-note">—</p>
+            <p class="tuner-cents muted" id="tuner-cents">Standard tuning.</p>
+            <div class="row-actions">
+              <button class="btn btn-primary" type="button" id="tuner-listen" aria-pressed="false">Listen</button>
+            </div>
+            <div class="string-row" id="tuner-strings"></div>
+          </div>
+        </section>
+        <section role="tabpanel" data-tab-panel="saved">
+          <div id="presets" class="grid grid-3"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© <span data-year></span> BluegrassBuddy</span>
+      <span>Open Em box = G major pentatonic. Capo moves that shape up the neck.</span>
+    </div>
+  </footer>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/page-capo.js"></script>
+</body>
+</html>
