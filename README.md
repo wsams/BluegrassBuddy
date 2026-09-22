@@ -2,9 +2,9 @@
 
 No install. Use it in the browser, including on a phone.
 
-**[Open BluegrassBuddy](https://atom.github.io/bluegrassbuddy/)**
+[![Open BluegrassBuddy](https://img.shields.io/badge/Open_BluegrassBuddy-use_it_in_the_browser-7c6af7?style=for-the-badge)](https://wsams.github.io/BluegrassBuddy/)
 
-Capo, charts, scales, and a jam for bluegrass players. Guitar is the reference instrument. Bass, mandolin, fiddle, banjo, and steel play along in the mixer. The app is meant to be used as it is. Recommendations are welcome — open an [issue](https://github.com/atom/bluegrassbuddy/issues) if a chart, a capo spot, or a jam part should work differently. If there is interest in a larger site, with accounts and songs kept on a server, that can come later.
+Capo, charts, scales, and a jam for bluegrass players. Guitar is the reference instrument. Bass, mandolin, fiddle, banjo, and steel play along in the mixer. The app is meant to be used as it is. Recommendations are welcome — open an [issue](https://github.com/wsams/BluegrassBuddy/issues) if a chart, a capo spot, or a jam part should work differently. If there is interest in a larger site, with accounts and songs kept on a server, that can come later.
 
 ## Saved in your browser only
 
