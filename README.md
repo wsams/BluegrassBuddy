@@ -59,4 +59,4 @@ After the repo is on GitHub:
 
 ## License
 
-MIT. Built-in lyrics are traditional / public domain. Do not paste copyrighted charts into the shared catalog.
+No license.
