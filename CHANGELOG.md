@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/wsams/BluegrassBuddy/compare/v1.0.0...v1.1.0) (2026-10-31)
+
+### Features
+
+* Improve player ([00ee3af](https://github.com/wsams/BluegrassBuddy/commit/00ee3af31698a5c3ebe5dd8d656b2c80706d6ac6))
+
 ## 1.0.0 (2026-09-22)
 
 ### Features
