@@ -4,6 +4,7 @@ export const INSTRUMENTS = [
     name: 'Guitar',
     tuning: 'E2 A2 D3 G3 B3 E4',
     role: 'Strum, boom-chuck, and waltz',
+    colorName: 'Chunk',
     notes: 'Rhythm guitar for the jam, plus the capo, boxes, and chord charts.',
     patterns: [
       { id: 'strum', name: 'Strum', hint: 'A strum on every beat' },
@@ -17,6 +18,7 @@ export const INSTRUMENTS = [
     name: 'Bass',
     tuning: 'E1 A1 D2 G2',
     role: 'Root and five',
+    colorName: 'Thump',
     notes: 'Two-beat time under the guitar.',
     patterns: [
       { id: 'root-five', name: 'Root–five', hint: 'Root on 1, fifth on 3' },
@@ -29,6 +31,7 @@ export const INSTRUMENTS = [
     name: 'Mandolin',
     tuning: 'G3 D4 A4 E5',
     role: 'Chop',
+    colorName: 'Snap',
     notes: 'Backbeat chop, a double chop, or tremolo.',
     patterns: [
       { id: 'chop', name: 'Chop', hint: 'Short chunk on 2 and 4' },
@@ -41,6 +44,7 @@ export const INSTRUMENTS = [
     name: 'Fiddle',
     tuning: 'G3 D4 A4 E5',
     role: 'Drone, shuffle, chop',
+    colorName: 'Rosin',
     notes: 'A bowed drone, a long-short shuffle, or a chop.',
     patterns: [
       { id: 'drone', name: 'Drone', hint: 'Root and fifth' },
@@ -53,6 +57,7 @@ export const INSTRUMENTS = [
     name: 'Banjo',
     tuning: 'gDGBD',
     role: 'Rolls',
+    colorName: 'Ring',
     notes: 'A sixteenth-note run, or an eighth-note roll.',
     patterns: [
       { id: 'sixteenth-run', name: '16th run', hint: 'A roll on every sixteenth' },
@@ -66,6 +71,7 @@ export const INSTRUMENTS = [
     name: 'Steel',
     tuning: '',
     role: 'Swell and thirds',
+    colorName: 'Swell',
     notes: 'A soft pad, sliding thirds, or a short answer.',
     patterns: [
       { id: 'pad', name: 'Swell', hint: 'Root and third on the change' },
@@ -78,3 +84,12 @@ export const INSTRUMENTS = [
 export function getInstrument(id) {
   return INSTRUMENTS.find((i) => i.id === id);
 }
+
+export const MIX_DEFAULTS = {
+  guitar: { on: true, pattern: 'strum', level: 80, tone: 70, color: 58 },
+  mandolin: { on: true, pattern: 'chop', level: 62, tone: 76, color: 72 },
+  fiddle: { on: false, pattern: 'drone', level: 48, tone: 56, color: 40 },
+  bass: { on: true, pattern: 'root-five', level: 86, tone: 42, color: 70 },
+  steel: { on: false, pattern: 'pad', level: 46, tone: 50, color: 64 },
+  banjo: { on: true, pattern: 'sixteenth-run', level: 54, tone: 78, color: 58 },
+};

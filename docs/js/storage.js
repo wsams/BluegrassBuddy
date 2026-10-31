@@ -1,3 +1,5 @@
+import { MIX_DEFAULTS } from './instruments-data.js';
+
 const KEY = 'bluegrassbuddy.v1';
 
 const EMPTY = {
@@ -8,17 +10,11 @@ const EMPTY = {
     instrument: 'guitar',
     lastSongId: 'circle-be-unbroken',
     theme: 'dark',
+    room: 28,
   },
   capoPresets: [],
   customSongs: [],
-  mixer: {
-    guitar: { on: true, pattern: 'strum' },
-    mandolin: { on: true, pattern: 'chop' },
-    fiddle: { on: false, pattern: 'drone' },
-    bass: { on: true, pattern: 'root-five' },
-    steel: { on: false, pattern: 'pad' },
-    banjo: { on: true, pattern: 'sixteenth-run' },
-  },
+  mixer: MIX_DEFAULTS,
   widgets: {
     capo: { open: true, x: null, y: null },
     tuner: { open: true, x: null, y: null },
@@ -30,14 +26,14 @@ function load() {
     const raw = localStorage.getItem(KEY);
     if (!raw) return structuredClone(EMPTY);
     const parsed = JSON.parse(raw);
-    const mixer = { ...EMPTY.mixer, ...(parsed.mixer || {}) };
+    const mixer = mergeMixer(parsed.mixer);
     if ((parsed.version || 1) < 2) {
-      mixer.guitar = { on: true, pattern: 'strum' };
-      mixer.bass = { on: true, pattern: 'root-five' };
-      mixer.mandolin = { on: true, pattern: 'chop' };
-      mixer.banjo = { on: true, pattern: 'sixteenth-run' };
-      mixer.fiddle = { ...mixer.fiddle, on: false };
-      mixer.steel = { ...mixer.steel, on: false };
+      mixer.guitar = { ...MIX_DEFAULTS.guitar, on: true, pattern: 'strum' };
+      mixer.bass = { ...MIX_DEFAULTS.bass, on: true, pattern: 'root-five' };
+      mixer.mandolin = { ...MIX_DEFAULTS.mandolin, on: true, pattern: 'chop' };
+      mixer.banjo = { ...MIX_DEFAULTS.banjo, on: true, pattern: 'sixteenth-run' };
+      mixer.fiddle = { ...MIX_DEFAULTS.fiddle, ...mixer.fiddle, on: false };
+      mixer.steel = { ...MIX_DEFAULTS.steel, ...mixer.steel, on: false };
     }
     const state = {
       ...structuredClone(EMPTY),
@@ -54,6 +50,14 @@ function load() {
   } catch {
     return structuredClone(EMPTY);
   }
+}
+
+function mergeMixer(saved = {}) {
+  const mixer = {};
+  for (const id of Object.keys(MIX_DEFAULTS)) {
+    mixer[id] = { ...MIX_DEFAULTS[id], ...(saved?.[id] || {}) };
+  }
+  return mixer;
 }
 
 function mergeWidgets(saved) {
@@ -150,7 +154,7 @@ export function importData(json) {
   const next = {
     ...structuredClone(EMPTY),
     preferences: { ...EMPTY.preferences, ...(parsed.preferences || {}) },
-    mixer: { ...EMPTY.mixer, ...(parsed.mixer || {}) },
+    mixer: mergeMixer(parsed.mixer),
     widgets: mergeWidgets(parsed.widgets),
     capoPresets: parsed.capoPresets || [],
     customSongs: parsed.customSongs || [],

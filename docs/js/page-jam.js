@@ -1,9 +1,10 @@
 import { fillKeySelect } from './app.js';
 import { getState } from './storage.js';
-import { bindPlayer, renderMixer } from './player-ui.js';
+import { bindPlayer, renderMixer, renderRoom } from './player-ui.js';
 import { mountGuitarClips } from './guitar-clips.js';
 
 fillKeySelect(document.querySelector('#key'), getState().preferences.songKey);
+renderRoom(document.querySelector('#room'));
 renderMixer(document.querySelector('#mixer'));
 mountGuitarClips(document.querySelector('#guitar-clips'));
 bindPlayer({

@@ -518,6 +518,52 @@ td.hl { color: var(--accent-2); font-weight: 700; }
   font-weight: 600;
   cursor: pointer;
 }
+.band-panel { margin-top: 1.2rem; }
+.band-panel h2 { margin-bottom: 0.15rem; }
+.room-row { margin: 0.75rem 0 0.85rem; max-width: 18rem; }
+.tone-desk { display: flex; flex-direction: column; gap: 0.45rem; }
+.tone-row {
+  display: grid;
+  grid-template-columns: minmax(9.2rem, 12.5rem) minmax(0, 1fr);
+  gap: 0.55rem 0.85rem;
+  align-items: center;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+.tone-row.off { opacity: 0.48; }
+.tone-id { display: flex; flex-direction: column; gap: 0.35rem; }
+.tone-id select, .mixer-card select { width: 100%; }
+.knobs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.25rem 0.7rem;
+}
+.mixer-card .knobs { margin-top: 0.7rem; }
+.knob {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+input[type="range"] {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--accent);
+  height: 1.35rem;
+}
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (max-width: 680px) {
+  .tone-row { grid-template-columns: 1fr; }
+}
 .now-playing {
   display: flex;
   flex-direction: column;

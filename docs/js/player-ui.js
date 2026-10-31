@@ -1,7 +1,7 @@
 import { jam } from './audio.js';
 import { BUILTIN_SONGS, flattenSong, lyricColumns } from './songs-data.js';
 import { getState, patchMixer, patchPreferences } from './storage.js';
-import { INSTRUMENTS } from './instruments-data.js';
+import { INSTRUMENTS, MIX_DEFAULTS } from './instruments-data.js';
 import { pitchClass, transposeChord } from './theory.js';
 
 export function allSongs() {
@@ -34,10 +34,71 @@ export function transposeSong(song, targetKey) {
   };
 }
 
-export function renderMixer(el) {
+function slotOf(mixer, inst) {
+  const defaults = MIX_DEFAULTS[inst.id] || {};
+  const slot = mixer[inst.id] || {};
+  return {
+    on: slot.on ?? defaults.on ?? false,
+    pattern: slot.pattern || defaults.pattern || inst.patterns[0].id,
+    level: slot.level ?? defaults.level ?? 70,
+    tone: slot.tone ?? defaults.tone ?? 60,
+    color: slot.color ?? defaults.color ?? 50,
+  };
+}
+
+function knobHtml(inst, slot) {
+  const knobs = [
+    ['level', 'Level', slot.level],
+    ['tone', 'Tone', slot.tone],
+    ['color', inst.colorName || 'Color', slot.color],
+  ];
+  return `<div class="knobs">${knobs.map(([key, label, value]) => `
+    <label class="knob">${label}
+      <input type="range" min="0" max="100" value="${value}" data-mix-${key}="${inst.id}" aria-label="${inst.name} ${label}"/>
+    </label>`).join('')}</div>`;
+}
+
+function syncMix() {
+  jam.applyMix(getState().mixer);
+}
+
+export function renderRoom(el) {
+  if (!el) return;
+  const room = getState().preferences.room ?? 28;
+  el.innerHTML = `
+    <label class="knob room-knob">Room
+      <input type="range" min="0" max="100" value="${room}" aria-label="Room"/>
+    </label>`;
+  const input = el.querySelector('input');
+  input.addEventListener('input', () => {
+    const value = Number(input.value);
+    patchPreferences({ room: value });
+    jam.setRoom(value);
+  });
+  jam.setRoom(room);
+}
+
+export function renderMixer(el, { layout = 'cards' } = {}) {
+  if (!el) return;
   const mixer = getState().mixer;
   el.innerHTML = INSTRUMENTS.map((inst) => {
-    const slot = mixer[inst.id] || { on: false, pattern: inst.patterns[0].id };
+    const slot = slotOf(mixer, inst);
+    const options = inst.patterns.map((p) => `<option value="${p.id}" ${p.id === slot.pattern ? 'selected' : ''}>${p.name}</option>`).join('');
+    const select = `<select data-mix-pattern="${inst.id}" aria-label="${inst.name} pattern">${options}</select>`;
+    const hint = inst.patterns.find((p) => p.id === slot.pattern)?.hint || inst.role;
+    if (layout === 'desk') {
+      return `
+        <div class="tone-row${slot.on ? '' : ' off'}" data-inst="${inst.id}">
+          <div class="tone-id">
+            <label class="switch">
+              <input type="checkbox" data-mix-on="${inst.id}" ${slot.on ? 'checked' : ''}/>
+              <span>${inst.name}</span>
+            </label>
+            ${select}
+          </div>
+          ${knobHtml(inst, slot)}
+        </div>`;
+    }
     return `
       <div class="mixer-card ${slot.on ? 'on' : ''}" data-inst="${inst.id}">
         <div class="mixer-head">
@@ -46,28 +107,37 @@ export function renderMixer(el) {
             <span>${inst.name}</span>
           </label>
         </div>
-        <select data-mix-pattern="${inst.id}" aria-label="${inst.name} pattern">
-          ${inst.patterns.map((p) => `<option value="${p.id}" ${p.id === slot.pattern ? 'selected' : ''}>${p.name}</option>`).join('')}
-        </select>
-        <p class="hint">${inst.patterns.find((p) => p.id === slot.pattern)?.hint || inst.role}</p>
-      </div>
-    `;
+        ${select}
+        <p class="hint">${hint}</p>
+        ${knobHtml(inst, slot)}
+      </div>`;
   }).join('');
 
   el.querySelectorAll('[data-mix-on]').forEach((input) => {
     input.addEventListener('change', () => {
       patchMixer(input.dataset.mixOn, { on: input.checked });
-      jam.mixer = getState().mixer;
-      el.querySelector(`[data-inst="${input.dataset.mixOn}"]`)?.classList.toggle('on', input.checked);
+      syncMix();
+      const card = el.querySelector(`[data-inst="${input.dataset.mixOn}"]`);
+      card?.classList.toggle('on', input.checked);
+      card?.classList.toggle('off', !input.checked);
     });
   });
   el.querySelectorAll('[data-mix-pattern]').forEach((select) => {
     select.addEventListener('change', () => {
       patchMixer(select.dataset.mixPattern, { pattern: select.value });
-      jam.mixer = getState().mixer;
+      syncMix();
       const inst = INSTRUMENTS.find((i) => i.id === select.dataset.mixPattern);
       const hint = inst?.patterns.find((p) => p.id === select.value)?.hint;
-      select.parentElement.querySelector('.hint').textContent = hint || '';
+      const note = select.parentElement.querySelector('.hint');
+      if (note) note.textContent = hint || '';
+    });
+  });
+  el.querySelectorAll('input[type="range"]').forEach((input) => {
+    input.addEventListener('input', () => {
+      const id = input.dataset.mixLevel || input.dataset.mixTone || input.dataset.mixColor;
+      const key = input.dataset.mixLevel ? 'level' : input.dataset.mixTone ? 'tone' : 'color';
+      patchMixer(id, { [key]: Number(input.value) });
+      syncMix();
     });
   });
 }
@@ -140,6 +210,7 @@ export function bindPlayer({
       time: song.time,
       mixer: getState().mixer,
       transpose: 0,
+      key: song.key,
     });
     renderLeadSheet(sheetEl, song, jam.playing ? jam.barIndex : -1);
     patchPreferences({ lastSongId: songSelect.value, songKey: keySelect.value });
