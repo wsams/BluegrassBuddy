@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/wsams/BluegrassBuddy/compare/v1.1.0...v1.1.1) (2026-10-31)
+
+### Bug Fixes
+
+* Pause page scroll on play ([70f40f9](https://github.com/wsams/BluegrassBuddy/commit/70f40f92172ba3a35434e2088d18d5ec44c84db3))
+
 ## [1.1.0](https://github.com/wsams/BluegrassBuddy/compare/v1.0.0...v1.1.0) (2026-10-31)
 
 ### Features
