@@ -11,6 +11,7 @@ const EMPTY = {
     lastSongId: 'circle-be-unbroken',
     theme: 'dark',
     room: 28,
+    followSheet: true,
   },
   capoPresets: [],
   customSongs: [],

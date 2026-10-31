@@ -239,6 +239,37 @@ export function bindPlayer({
     jam.tempo = Number(tempoInput.value) || 110;
   });
 
+  const followBtn = document.createElement('button');
+  followBtn.type = 'button';
+  followBtn.className = 'btn follow-toggle';
+  document.body.appendChild(followBtn);
+
+  function following() {
+    return getState().preferences.followSheet !== false;
+  }
+
+  function paintFollow() {
+    const on = following();
+    followBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    followBtn.textContent = on ? 'Following' : 'Follow';
+    followBtn.setAttribute('aria-label', on ? 'Stop scrolling with the song' : 'Scroll with the song');
+    followBtn.classList.toggle('is-on', on);
+  }
+
+  followBtn.addEventListener('click', () => {
+    const next = !following();
+    patchPreferences({ followSheet: next });
+    paintFollow();
+    if (!next) {
+      window.scrollTo(0, window.scrollY);
+      return;
+    }
+    if (jam.playing) {
+      sheetEl.querySelector(`[data-bar="${jam.barIndex}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  });
+  paintFollow();
+
   playBtn.addEventListener('click', async () => {
     applySong();
     if (jam.playing) {
@@ -260,7 +291,9 @@ export function bindPlayer({
 
   jam.onBar = (index, bar) => {
     renderLeadSheet(sheetEl, current().song, index);
-    sheetEl.querySelector(`[data-bar="${index}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    if (following()) {
+      sheetEl.querySelector(`[data-bar="${index}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
     if (nowEl) nowEl.innerHTML = renderLine(lyricColumns(bar.chords, bar.lyric).map((col) => ({ ...col, index: -1, active: false })));
   };
   jam.onBeat = (_i, beat) => {
